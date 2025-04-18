@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tags Prediction</title>
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-blue-100 min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="bg-white shadow-xl rounded-2xl p-8 max-w-2xl w-full space-y-6 border-blue-600 border">
+        <h1 class="text-2xl font-bold text-gray-800 text-center">Tags Prediction</h1>
+
+        <div id="tagPredictionForm" class="space-y-4">
+            <div>
+                <label for="title" class="block text-gray-700 font-medium mb-1">Title</label>
+                <input type="text" id="title" name="title" required
+                    value="What is the difference between Java and JavaScript?"
+                    class="w-full  rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500  border-blue-600 border bg-gray-200 shadow-inner">
+            </div>
+
+            <div>
+                <label for="body" class="block text-gray-700 font-medium mb-1">Body</label>
+                <textarea id="body" name="body" rows="4" required
+                    class="w-full  rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500  border-blue-600 border  bg-gray-200 shadow-inner">Can someone explain the key differences between Java and JavaScript?</textarea>
+            </div>
+
+            <div class="text-center">
+                <button type="button" onclick="predictTags()"
+                    class="bg-blue-600 text-white text-lg px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300 shadow-lg flex items-center justify-center gap-2 mx-auto font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                        viewBox="0 0 24 24"><!-- Icon from Iconoir by Luca Burgio - https://github.com/iconoir-icons/iconoir/blob/main/LICENSE -->
+                        <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="1.5"
+                            d="M8 15c4.875 0 7-2.051 7-7c0 4.949 2.11 7 7 7c-4.89 0-7 2.11-7 7c0-4.89-2.125-7-7-7ZM2 6.5c3.134 0 4.5-1.318 4.5-4.5c0 3.182 1.357 4.5 4.5 4.5c-3.143 0-4.5 1.357-4.5 4.5c0-3.143-1.366-4.5-4.5-4.5Z" />
+                    </svg>
+                    <span>
+                        Predict Tags
+                    </span>
+                </button>
+            </div>
+        </div>
+
+        <div id="tagsResult" class=" p-4 rounded-lg border border-blue-600  bg-gray-200 shadow-inner">
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">Predicted Tags:</h3>
+            <ul id="tagsList" class="list-disc list-inside text-gray-700 space-y-1"></ul>
+        </div>
+
+    </div>
+    <div class="text-gray-600 text-sm my-12 font-semibold text-center">Thomas Testaud, 2025, Machine Learning Engineer
+        pour OpenClassroom</div>
+
+    <script>
+        async function predictTags() {
+            const title = document.getElementById('title').value;
+            const body = document.getElementById('body').value;
+
+            const response = await fetch('http://127.0.0.1:5000/api/predict-tags', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, body })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const tagsList = document.getElementById('tagsList');
+                tagsList.innerHTML = '';
+                data.tags.forEach(tag => {
+                    const li = document.createElement('li');
+                    li.textContent = tag;
+                    tagsList.appendChild(li);
+                });
+            } else {
+                alert('Error predicting tags');
+            }
+        }
+    </script>
+</body>
+
+</html>
