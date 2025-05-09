@@ -20,7 +20,8 @@ with open('mlb.pkl', 'rb') as f:
 
 # Fonction pour prédire les tags
 import numpy as np
-def suggest_tags(title, body, vectorizer, model, mlb, threshold=0.05, top_n=5):
+def suggest_tags(title, body, vectorizer, model, mlb, threshold=0.5, top_n=5):
+    # TODO: nettoyer title et body
     # Prétraitement du texte
     text = title + " " + body
     text_vectorized = vectorizer.transform([text])  # Transformer avec le même vectorizer entraîné
@@ -35,6 +36,7 @@ def suggest_tags(title, body, vectorizer, model, mlb, threshold=0.05, top_n=5):
     # Extraire les indices des tags au-dessus du seuil
     probas = y_pred_proba[0]
     above_threshold = [(mlb.classes_[i], probas[i]) for i in range(len(probas)) if probas[i] > threshold]
+    print(above_threshold)
 
     # Trier par probabilité décroissante et prendre les top_n
     above_threshold_sorted = sorted(above_threshold, key=lambda x: x[1], reverse=True)[:top_n]
