@@ -44,8 +44,9 @@ jobs:
     - name: Récupérer le code
       uses: actions/checkout@v3
 
-    # Déployer l'API (exemple utilisant SSH ou CLI cloud)
+    # Déployer l'API
     - name: Déployer l'API
       run: |
         echo "Déploiement de l'API..."
-        # Ajouter ici les commandes de déploiement, par exemple, SSH vers le serveur ou utiliser une CLI cloud
+        # ecrire ici les commandes de déploiement
+
