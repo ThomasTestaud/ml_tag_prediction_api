@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask import request
 from flask_cors import CORS
 # Enable CORS for the Flask app
@@ -97,6 +97,9 @@ def preprocess_title(title):
     ]
     return " ".join(tokens)
 
+@app.route('/')
+def index():
+    return send_from_directory('static', 'index.html')
 
 @app.route('/api', methods=['GET'])
 def api_route():
