@@ -59,8 +59,17 @@
             const tagsList = document.getElementById('tagsList');
             tagsList.innerHTML = 'En attente de la réponse... Si c\'est votre première requête, cela peut prendre un peu prendre 1 minute le temps que l\'API se réchauffe.';
             
-            
+            /*
             const response = await fetch('https://ml-tag-prediction-api.onrender.com/api/predict-tags', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, body })
+            });
+            */
+
+            const response = await fetch('http://127.0.0.1:5000/api/predict-tags', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
