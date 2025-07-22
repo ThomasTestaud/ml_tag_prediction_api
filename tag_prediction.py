@@ -16,6 +16,7 @@ pca = joblib.load('PCA_TFIDF.pkl')
 # Téléchargement des stopwords et du lemmatizer si nécessaire
 nltk.download('stopwords')
 nltk.download('wordnet')
+nltk.download('omw-1.4') 
 lemmatizer = nltk.WordNetLemmatizer()
 
 # import des dictionnaires
